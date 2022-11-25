@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+    php:
+        container_name: ui-studentlist
+        ports:
+            - '8000:80'
+        networks:
+            - studentlist-network
+        volumes:
+            - '$PWD/website:/var/www/html'
+        environment:
+            - USERNAME=toto
+            - PASSWORD=python
+        image: 'php:apache'
+        depends_on:
+            - studentlist
+
+    studentlist:
+        container_name: studentlis-test
+        networks:
+            - studentlist-network
+        volumes:
+            - '$PWD/simple_api/student_age.json:/data/student_age.json'
+        image: 'studentlist:v0'
+networks:
+    studentlist-network:
