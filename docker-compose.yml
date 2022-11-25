@@ -22,5 +22,27 @@ services:
         volumes:
             - '$PWD/simple_api/student_age.json:/data/student_age.json'
         image: 'studentlist:v0'
-networks:
-    studentlist-network:
+
+
+    registry:
+        container_name: registry
+        networks:
+            - registry-network
+        image: 'registry:2'
+        ports:
+            - '5000:5000'
+
+    registry-ui:
+        container_name: registry-ui
+        networks:
+            - registry-network
+        image: 'joxit/docker-registry-ui:static'
+        environment:
+            - REGISTRY_URL="http://registry:5000"
+            - REGISTRY_TITLE="N'FAMOUSSA PRIVATE REGISTRY"
+        ports:
+            - '8080:80'
+
+  networks:
+      studentlist-network:
+      registry-network:
